@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-public class payrollManagement{
+public class testEmployee{
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         ArrayList<Employee> employeeList = new ArrayList<Employee>();
@@ -94,8 +94,7 @@ public class payrollManagement{
             }
             else if(nxtChoice.compareTo("2")==0){
                 for (Employee employee : employeeList) {
-                    employee.setAllowance();
-                    System.out.println(employee.toString());
+                    System.out.println(employee.toString()+"  Salary+Allowance:"+employee.setAllowance());
                 }
                 break;
             }
