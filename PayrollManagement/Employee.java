@@ -53,16 +53,10 @@
         }
         public double setAllowance(){
             if(this.empDesignation.toUpperCase().compareTo("MANAGER")==0){
-    //                System.out.println("Salary for employee "+this.empName+" "+this.empSalary);
-    //                System.out.println("Allowance for employee "+this.empName+" "+(0.2*this.empSalary));
-    //                System.out.println("Salary after adding allowance for employee "+this.empName+" "+(this.empSalary+0.2*this.empSalary));
                 return this.empSalary+0.2*this.empSalary;
 
             }else
             {
-//                System.out.println("Salary for employee "+this.empName+" "+this.empSalary);
-//                System.out.println("Allowance for employee "+this.empName+" "+(0.1*this.empSalary));
-//                System.out.println("Salary after adding allowance for employee "+this.empName+" "+(this.empSalary+0.1*this.empSalary));
                 return this.empSalary+0.1*this.empSalary;
             }
         }
