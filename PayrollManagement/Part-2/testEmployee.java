@@ -5,12 +5,11 @@ public class testEmployee{
         Scanner sc = new Scanner(System.in);
         MasterData masterData=new MasterData();
         AttendanceMaster attendanceMaster=new AttendanceMaster();
-        //int attendanceListCounter=1001;
-        //int index=0;
-        int employeeCount = 1;
+        int employeeCount = 1001;
         String nxtChoice="";
         while (true) {
-            System.out.println("1.Add employee detail  2.Display the employee list  3.Eligible employee list  4.Exit");
+            System.out.println("--------------Enter the coice--------------");
+            System.out.println("1.Add employee detail  \n2.Other option");
             nxtChoice=sc.nextLine();
             if(nxtChoice.compareTo("1")==0){
                 System.out.println("Enter the details of employee  " + employeeCount);
@@ -19,59 +18,44 @@ public class testEmployee{
                 String name = "";
                 name = sc.nextLine();
                 employee.setEmpName(name);
-                String departmentChoice = "";
-                String department = "";
+                int departmentChoice ;
+                String[] departmentList={"R&D","IT","HR","Testing","Support"};
                 while (true) {
-                    System.out.println("Enter the employee department 1.R&D  2.IT 3.HR 4.Testing 5.Support");
-                    departmentChoice = sc.nextLine();
-                    if (departmentChoice.compareTo("1") == 0) {
-                        department = "R&D";
-                        break;
-                    } else if (departmentChoice.compareTo("2") == 0) {
-                        department = "IT";
-                        break;
-                    } else if (departmentChoice.compareTo("3") == 0) {
-                        department = "HR";
-                        break;
-                    } else if (departmentChoice.compareTo("4") == 0) {
-                        department = "IT";
-                        break;
-                    } else if (departmentChoice.compareTo("5") == 0) {
-                        department = "Support";
-                        break;
-                    } else {
+                    System.out.println("Enter the employee department \n1.R&D  \n2.IT \n3.HR \n4.Testing \n5.Support");
+                    try {
+                        departmentChoice = sc.nextInt();
+                        sc.nextLine();
+                        if (departmentChoice > 0 && departmentChoice <= 5) {
+                            employee.setDepartment(departmentList[departmentChoice - 1]);
+                            break;
+                        } else {
+                            System.out.println("Invalid choice");
+                        }
+                    } catch (InputMismatchException e) {
                         System.out.println("Invalid choice");
+                        sc.nextLine();
                     }
                 }
-                employee.setDepartment(department);
-                String designationChoice = "";
-                String designation = "";
+                int designationChoice;
+                String[] designationList={"Software Intern","Software Developer","Manager","Director","Vice President","CEO"};
                 while (true) {
-                    System.out.println("Enter the employee designation 1.Software Intern 2.Software Developer 3.Manager 4.Director 5.Vice President 6.CEO");
-                    designationChoice = sc.nextLine();
-                    if (designationChoice.compareTo("1") == 0) {
-                        designation = "Software Intern";
-                        break;
-                    } else if (designationChoice.compareTo("2") == 0) {
-                        designation = "Software Developer";
-                        break;
-                    } else if (designationChoice.compareTo("3") == 0) {
-                        designation = "Manager";
-                        break;
-                    } else if (designationChoice.compareTo("4") == 0) {
-                        designation = "Director";
-                        break;
-                    } else if (designationChoice.compareTo("5") == 0) {
-                        designation = "Vice President";
-                        break;
-                    } else if (designationChoice.compareTo("6") == 0) {
-                        designation = "CEO";
-                        break;
-                    } else {
+                    System.out.println("Enter the employee designation \n1.Software Intern \n2.Software Developer \n3.Manager \n4.Director \n5.Vice President \n6.CEO");
+                    try {
+                        designationChoice= sc.nextInt();
+                        sc.nextLine();
+                        if(designationChoice>0 && designationChoice<=6){
+                            employee.setDesignation(designationList[designationChoice-1]);
+                            break;
+                        }
+                        else{
+                            System.out.println("Invalid choice");
+                        }
+                    }
+                    catch (InputMismatchException e){
                         System.out.println("Invalid choice");
+                        sc.nextLine();
                     }
                 }
-                employee.setDesignation(designation);
                 Double salary=0.0;
                 try {
                     System.out.println("Enter the employee salary");
@@ -85,30 +69,62 @@ public class testEmployee{
                     employee.setSalary(salary);
                 }
                 masterData.addEmployeeToList(employee);
+                System.out.println("Employee detail added to the list");
                 employeeCount++;
 
             }
-            else if(nxtChoice.compareTo("2")==0){
-                masterData.employeeDetailDisplay();
-            }
-            else if(nxtChoice.compareTo("3")==0){
-                int noOfWorkingDays;
-                //int i;
-                for(Employee employee:masterData.getEmpList()){
-                //for(i=attendanceListCounter;i<attendanceListCounter+masterData.getEmpList().size();i++){
-                    System.out.println("Enter the number of working day for the employee "+employee.getEmpId());
-                    noOfWorkingDays= sc.nextInt();
-                    //attendanceMaster.addAttendance(masterData.getEmpList().get(index),noOfDays);
-                    //index++;
-                    attendanceMaster.addAttendance(employee,noOfWorkingDays);
-                }
-                //attendanceListCounter=i;
-                sc.nextLine();
-                attendanceMaster.showEligibleList();
+            else if(nxtChoice.compareTo("2")==0) {
+                boolean toContinue = true;
+                while (true) {
+                    if(masterData.getEmpList().size()==0){
+                        System.out.println("The employee list is empty");
+                        break;
+                    }
+                    else {
+                        System.out.println("--------------Enter the coice--------------");
+                        System.out.println("1.Display employee details   \n2.Add attendance to the employee  \n3.Show eligible employee list  \n4.Exit");
+                        String displayChoice = sc.nextLine();
+                        if (displayChoice.compareTo("1") == 0) {
+                            masterData.employeeDetailDisplay();
+                        } else if (displayChoice.compareTo("2") == 0) {
+                            int noOfWorkingDays;
+                            for (Employee employee1 : masterData.getEmpList()) {
+                                System.out.println("Enter the number of working day for the employee " + employee1.getEmpId());
+                                while (true) {
+                                    try {
+                                        noOfWorkingDays = sc.nextInt();
+                                        sc.nextLine();
+                                        if(noOfWorkingDays>0){
+                                            attendanceMaster.addAttendance(employee1, noOfWorkingDays);
+                                            break;
+                                        }
+                                        else{
+                                            System.out.println("Number of working day should not be negative");
+                                            System.out.println("Re-enter the number of working day for the employee");
+                                        }
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Number of working days should be number");
+                                        System.out.println("Re-enter the number of working day for the employee");
+                                        sc.nextLine();
+                                    }
+                                }
+                            }
+                        }else if(displayChoice.compareTo("3")==0){
 
-            }
-            else if(nxtChoice.compareTo("4")==0){
-                break;
+                            attendanceMaster.showEligibleList();
+                        }
+                        else if (displayChoice.compareTo("4") == 0) {
+                            toContinue = false;
+                            break;
+
+                        } else {
+                            System.out.println("Invalid choice");
+                        }
+                    }
+                }
+                if (!toContinue) {
+                    break;
+                }
             }
             else{
                 System.out.println("Invalid choice");

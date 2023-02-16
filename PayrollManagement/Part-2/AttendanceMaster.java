@@ -8,9 +8,16 @@ public class AttendanceMaster {
         empAttendancedict.put(employee, attendance);
     }
     public void showEligibleList(){
-        for (Map.Entry<Employee, Integer> entry : empAttendancedict.entrySet()) {
-            if (entry.getValue()>10) {
-                System.out.println(entry.getKey().toString());
+        if(empAttendancedict.size()==0){
+            System.out.println("Number of working days is not entered");
+        }
+        else {
+            System.out.println("Eligible employee list:");
+            for (Employee employee : empAttendancedict.keySet()) {
+                if (empAttendancedict.get(employee) > 10) {
+                    System.out.println("-------------Employee detail of "+employee.getEmpId()+"-------------");
+                    System.out.println(employee.toString());
+                }
             }
         }
     }

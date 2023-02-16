@@ -45,7 +45,7 @@ import java.util.Scanner;
         public void setSalary(Double salary) {
             double validatedSalary=0.0;
             if (salary == 0.0 || salary<=5000) {
-                while (true) {
+                while (validatedSalary<=5000){
                     try {
                         System.out.println("Re-enter the employee salary");
                         validatedSalary = sc.nextDouble();
@@ -88,18 +88,15 @@ import java.util.Scanner;
             this.empDesignation=designation;
             this.empSalary=salary;
         }
-        public double setAllowance(){
+        public void setAllowance(){
             if(this.empDesignation.toUpperCase().compareTo("MANAGER")==0){
                 empSalary=empSalary+0.2*empSalary;
-                return empSalary;
-
             }else
             {
                 empSalary=empSalary+0.1*empSalary;
-                return empSalary;
             }
         }
         public String toString(){
-            return "Id:"+this.empId+"  Name:"+this.empName+"  Department:"+this.empDepartment+"  Designation:"+this.empDesignation+"  Salary:"+this.empSalary;
+            return "Id:"+this.empId+"\nName:"+this.empName+"\nDepartment:"+this.empDepartment+"\nDesignation:"+this.empDesignation+"\nSalary:"+this.empSalary;
         }
     }

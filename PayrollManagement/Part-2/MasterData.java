@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class MasterData {
     private ArrayList<Employee> empList=new ArrayList<>();
@@ -11,7 +10,10 @@ public class MasterData {
     }
     public void employeeDetailDisplay(){
         for(Employee employee:empList){
-            System.out.println(employee.toString()+"  Salary+Allowance:"+employee.setAllowance());
+            System.out.println("-------------Employee detail of "+employee.getEmpId()+"-------------");
+            System.out.println(employee.toString());
+            employee.setAllowance();
+            System.out.println("Salary+Allowance:"+employee.getSalary());
         }
     }
 
