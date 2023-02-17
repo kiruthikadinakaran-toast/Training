@@ -8,9 +8,6 @@ import java.util.Scanner;
         private String empDepartment;
         private String empDesignation;
         private double empSalary;
-        public void setEmpId(int id){
-            this.empId=id;
-        }
         public int getEmpId(){
             return empId;
         }
@@ -89,7 +86,7 @@ import java.util.Scanner;
             this.empSalary=salary;
         }
         public void setAllowance(){
-            if(this.empDesignation.toUpperCase().compareTo("MANAGER")==0){
+            if(empDesignation.toUpperCase().compareTo("MANAGER")==0){
                 empSalary=empSalary+0.2*empSalary;
             }else
             {
@@ -97,6 +94,6 @@ import java.util.Scanner;
             }
         }
         public String toString(){
-            return "Id:"+this.empId+"\nName:"+this.empName+"\nDepartment:"+this.empDepartment+"\nDesignation:"+this.empDesignation+"\nSalary:"+this.empSalary;
+            return "Id:"+this.empId+"\nName:"+this.empName+"\nDepartment:"+this.empDepartment+"\nDesignation:"+this.empDesignation+"\nUpdated Salary:"+this.empSalary;
         }
     }

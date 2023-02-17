@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 public class testEmployee{
@@ -5,10 +6,11 @@ public class testEmployee{
         Scanner sc = new Scanner(System.in);
         MasterData masterData=new MasterData();
         AttendanceMaster attendanceMaster=new AttendanceMaster();
+        ArrayList<Employee> empList=new ArrayList<>();
         int employeeCount = 1001;
         String nxtChoice="";
         while (true) {
-            System.out.println("--------------Enter the coice--------------");
+            System.out.println("--------------Enter the choice--------------");
             System.out.println("1.Add employee detail  \n2.Other option");
             nxtChoice=sc.nextLine();
             if(nxtChoice.compareTo("1")==0){
@@ -21,6 +23,7 @@ public class testEmployee{
                 int departmentChoice ;
                 String[] departmentList={"R&D","IT","HR","Testing","Support"};
                 while (true) {
+
                     System.out.println("Enter the employee department \n1.R&D  \n2.IT \n3.HR \n4.Testing \n5.Support");
                     try {
                         departmentChoice = sc.nextInt();
@@ -69,8 +72,10 @@ public class testEmployee{
                     employee.setSalary(salary);
                 }
                 masterData.addEmployeeToList(employee);
+                employee.setAllowance();
                 System.out.println("Employee detail added to the list");
                 employeeCount++;
+                empList.add(employee);
 
             }
             else if(nxtChoice.compareTo("2")==0) {
@@ -82,38 +87,43 @@ public class testEmployee{
                     }
                     else {
                         System.out.println("--------------Enter the coice--------------");
-                        System.out.println("1.Display employee details   \n2.Add attendance to the employee  \n3.Show eligible employee list  \n4.Exit");
+                        System.out.println("1.Display employee details   \n2.Add attendance to the employee  \n3.Show eligible employee list  \n4.Go back\n5.Exit");
                         String displayChoice = sc.nextLine();
                         if (displayChoice.compareTo("1") == 0) {
                             masterData.employeeDetailDisplay();
                         } else if (displayChoice.compareTo("2") == 0) {
                             int noOfWorkingDays;
-                            for (Employee employee1 : masterData.getEmpList()) {
-                                System.out.println("Enter the number of working day for the employee " + employee1.getEmpId());
+                            for(Employee emp:empList) {
                                 while (true) {
+                                    System.out.println("Enter the number of working day for the employee " + emp.getEmpId());
                                     try {
                                         noOfWorkingDays = sc.nextInt();
                                         sc.nextLine();
-                                        if(noOfWorkingDays>0){
-                                            attendanceMaster.addAttendance(employee1, noOfWorkingDays);
+                                        if (noOfWorkingDays > 0) {
+                                            attendanceMaster.addAttendance(emp, noOfWorkingDays);
                                             break;
                                         }
                                         else{
-                                            System.out.println("Number of working day should not be negative");
-                                            System.out.println("Re-enter the number of working day for the employee");
+                                            System.out.println("Number of working days should not be negative");
                                         }
-                                    } catch (InputMismatchException e) {
+                                    } catch (InputMismatchException exception) {
                                         System.out.println("Number of working days should be number");
-                                        System.out.println("Re-enter the number of working day for the employee");
                                         sc.nextLine();
                                     }
+
                                 }
                             }
+                            empList.clear();
+
                         }else if(displayChoice.compareTo("3")==0){
 
                             attendanceMaster.showEligibleList();
                         }
-                        else if (displayChoice.compareTo("4") == 0) {
+                        else if(displayChoice.compareTo("4")==0){
+                            break;
+
+                        }
+                        else if (displayChoice.compareTo("5") == 0) {
                             toContinue = false;
                             break;
 

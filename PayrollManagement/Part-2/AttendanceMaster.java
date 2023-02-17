@@ -1,7 +1,5 @@
 
 import java.util.HashMap;
-import java.util.Map;
-
 public class AttendanceMaster {
     HashMap<Employee,Integer> empAttendancedict=new HashMap<Employee,Integer>();;
     public void addAttendance(Employee employee,int attendance){
@@ -17,6 +15,7 @@ public class AttendanceMaster {
                 if (empAttendancedict.get(employee) > 10) {
                     System.out.println("-------------Employee detail of "+employee.getEmpId()+"-------------");
                     System.out.println(employee.toString());
+                    System.out.println("Number of working days:"+empAttendancedict.get(employee));
                 }
             }
         }

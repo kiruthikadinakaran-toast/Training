@@ -12,8 +12,6 @@ public class MasterData {
         for(Employee employee:empList){
             System.out.println("-------------Employee detail of "+employee.getEmpId()+"-------------");
             System.out.println(employee.toString());
-            employee.setAllowance();
-            System.out.println("Salary+Allowance:"+employee.getSalary());
         }
     }
 
