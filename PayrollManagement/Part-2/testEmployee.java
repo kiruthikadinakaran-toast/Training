@@ -87,7 +87,7 @@ public class testEmployee{
                     }
                     else {
                         System.out.println("--------------Enter the coice--------------");
-                        System.out.println("1.Display employee details   \n2.Add attendance to the employee  \n3.Show eligible employee list  \n4.Go back\n5.Exit");
+                        System.out.println("1.Display employee details   \n2.Add attendance to the employee  \n3.Show eligible employee list  \n4.Go back\n5.Update attendance to the employee\n6.Exit");
                         String displayChoice = sc.nextLine();
                         if (displayChoice.compareTo("1") == 0) {
                             masterData.employeeDetailDisplay();
@@ -114,8 +114,8 @@ public class testEmployee{
                                 }
                             }
                             empList.clear();
-
-                        }else if(displayChoice.compareTo("3")==0){
+                            }
+                        else if(displayChoice.compareTo("3")==0){
 
                             attendanceMaster.showEligibleList();
                         }
@@ -124,10 +124,54 @@ public class testEmployee{
 
                         }
                         else if (displayChoice.compareTo("5") == 0) {
+                            int empId;
+                            int updatedWorkingDays;
+                            boolean toBreak=false;
+                            if (attendanceMaster.empAttendancedict.size()>0) {
+                                while (true) {
+                                    try {
+                                        System.out.println("Enter the employee id");
+                                        empId = sc.nextInt();
+                                        sc.nextLine();
+                                        if (empId >= 1001 && empId <= attendanceMaster.empAttendancedict.size() + 1000) {
+                                            while (true) {
+                                                try {
+                                                    System.out.println("Enter the number of working days");
+                                                    updatedWorkingDays = sc.nextInt();
+                                                    sc.nextLine();
+                                                    if (updatedWorkingDays >= 0) {
+                                                        attendanceMaster.addAttendance(masterData.getEmployee(empId-1), updatedWorkingDays);
+                                                        toBreak = true;
+                                                        break;
+                                                    } else {
+                                                        System.out.println("Working days cannot be negative");
+                                                    }
+                                                } catch (InputMismatchException ex) {
+                                                    System.out.println("Working days should be value");
+                                                }
+                                            }
+                                            if (toBreak) {
+                                                break;
+                                            }
+                                        } else {
+                                            System.out.println("The employee id is not found");
+                                        }
+                                    } catch (InputMismatchException ex) {
+                                        System.out.println("Employee id should be value");
+                                    }
+                                }
+                            }
+                            else{
+                                System.out.println("Inorder to update the attendance you should enter the attendance to the employee");
+                                break;
+                            }
+
+
+                        } else if (displayChoice.compareTo("6") == 0) {
                             toContinue = false;
                             break;
 
-                        } else {
+                        }else {
                             System.out.println("Invalid choice");
                         }
                     }
