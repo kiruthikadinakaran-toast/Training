@@ -20,43 +20,40 @@ public class testEmployee{
                 String name = "";
                 name = sc.nextLine();
                 employee.setEmpName(name);
-                int departmentChoice ;
+                String departmentChoice ;
                 String[] departmentList={"R&D","IT","HR","Testing","Support"};
                 while (true) {
-
                     System.out.println("Enter the employee department \n1.R&D  \n2.IT \n3.HR \n4.Testing \n5.Support");
                     try {
-                        departmentChoice = sc.nextInt();
-                        sc.nextLine();
-                        if (departmentChoice > 0 && departmentChoice <= 5) {
-                            employee.setDepartment(departmentList[departmentChoice - 1]);
+                        departmentChoice = sc.nextLine();
+                        int convertedIntchoice=Integer.parseInt(departmentChoice);
+                        if (convertedIntchoice > 0 && convertedIntchoice <= 5) {
+                            employee.setDepartment(departmentList[convertedIntchoice - 1]);
                             break;
                         } else {
-                            System.out.println("Invalid choice");
+                            System.out.println("Invalid choice1");
                         }
-                    } catch (InputMismatchException e) {
+                    } catch (NumberFormatException e) {
                         System.out.println("Invalid choice");
-                        sc.nextLine();
                     }
                 }
-                int designationChoice;
+                String designationChoice;
                 String[] designationList={"Software Intern","Software Developer","Manager","Director","Vice President","CEO"};
                 while (true) {
                     System.out.println("Enter the employee designation \n1.Software Intern \n2.Software Developer \n3.Manager \n4.Director \n5.Vice President \n6.CEO");
                     try {
-                        designationChoice= sc.nextInt();
-                        sc.nextLine();
-                        if(designationChoice>0 && designationChoice<=6){
-                            employee.setDesignation(designationList[designationChoice-1]);
+                        designationChoice= sc.nextLine();
+                        int convertedDesigChoice=Integer.parseInt(designationChoice);
+                        if(convertedDesigChoice>0 && convertedDesigChoice<=6){
+                            employee.setDesignation(designationList[convertedDesigChoice-1]);
                             break;
                         }
                         else{
                             System.out.println("Invalid choice");
                         }
                     }
-                    catch (InputMismatchException e){
+                    catch (NumberFormatException e){
                         System.out.println("Invalid choice");
-                        sc.nextLine();
                     }
                 }
                 Double salary=0.0;
@@ -92,6 +89,10 @@ public class testEmployee{
                         if (displayChoice.compareTo("1") == 0) {
                             masterData.employeeDetailDisplay();
                         } else if (displayChoice.compareTo("2") == 0) {
+                            if(empList.size()==0){
+                                System.out.println("You already added the attendance of all employee");
+                            }
+                            else{
                             int noOfWorkingDays;
                             for(Employee emp:empList) {
                                 while (true) {
@@ -100,7 +101,7 @@ public class testEmployee{
                                         noOfWorkingDays = sc.nextInt();
                                         sc.nextLine();
                                         if (noOfWorkingDays > 0) {
-                                            attendanceMaster.addAttendance(emp, noOfWorkingDays);
+                                            attendanceMaster.empAttendancedict.put(emp, noOfWorkingDays);
                                             break;
                                         }
                                         else{
@@ -115,13 +116,13 @@ public class testEmployee{
                             }
                             empList.clear();
                             }
+                        }
                         else if(displayChoice.compareTo("3")==0){
 
                             attendanceMaster.showEligibleList();
                         }
                         else if(displayChoice.compareTo("4")==0){
                             break;
-
                         }
                         else if (displayChoice.compareTo("5") == 0) {
                             int empId;
@@ -140,7 +141,8 @@ public class testEmployee{
                                                     updatedWorkingDays = sc.nextInt();
                                                     sc.nextLine();
                                                     if (updatedWorkingDays >= 0) {
-                                                        attendanceMaster.addAttendance(masterData.getEmployee(empId-1), updatedWorkingDays);
+                                                        attendanceMaster.empAttendancedict.put(masterData.getEmpList().get(empId-1001), updatedWorkingDays);
+                                                        //attendanceMaster.addAttendance(masterData.getEmpList().get(empId-1001), updatedWorkingDays);
                                                         toBreak = true;
                                                         break;
                                                     } else {
@@ -148,6 +150,7 @@ public class testEmployee{
                                                     }
                                                 } catch (InputMismatchException ex) {
                                                     System.out.println("Working days should be value");
+                                                    sc.nextLine();
                                                 }
                                             }
                                             if (toBreak) {
@@ -165,8 +168,6 @@ public class testEmployee{
                                 System.out.println("Inorder to update the attendance you should enter the attendance to the employee");
                                 break;
                             }
-
-
                         } else if (displayChoice.compareTo("6") == 0) {
                             toContinue = false;
                             break;

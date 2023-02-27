@@ -8,9 +8,6 @@ public class MasterData {
     public ArrayList<Employee> getEmpList(){
         return empList;
     }
-    public Employee getEmployee(int id){
-        return empList.get(id-1000);
-    }
     public void employeeDetailDisplay(){
         for(Employee employee:empList){
             System.out.println("-------------Employee detail of "+employee.getEmpId()+"-------------");
