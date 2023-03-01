@@ -85,15 +85,24 @@ import java.util.Scanner;
             this.empDesignation=designation;
             this.empSalary=salary;
         }
-        public void setAllowance(){
-            if(empDesignation.toUpperCase().compareTo("MANAGER")==0){
-                empSalary=empSalary+0.2*empSalary;
-            }else
-            {
-                empSalary=empSalary+0.1*empSalary;
+        public void setAllowance() {
+            if (empDesignation.toUpperCase().compareTo("MANAGER") == 0) {
+                empSalary = empSalary + 0.2 * empSalary;
+            } else {
+                empSalary = empSalary + 0.1 * empSalary;
             }
         }
+        public double getOriginalSalary(){
+            double originalSalary;
+            if(empDesignation.compareTo("Manager")==0){
+                originalSalary=empSalary/1.2;
+            }
+            else{
+                originalSalary=empSalary/1.1;
+            }
+            return originalSalary;
+        }
         public String toString(){
-            return String.format("%-10d %-20s %-20s %-20s", empId, empName, empDepartment,empDesignation);
+            return String.format("%-10d %-20s %-20s %-20s %-10.2f", empId, empName, empDepartment,empDesignation,getOriginalSalary());
         }
     }

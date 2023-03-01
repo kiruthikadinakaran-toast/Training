@@ -9,6 +9,9 @@ public class MasterData {
         return empList;
     }
     public void employeeDetailDisplay(){
+        System.out.println("______________________________________________________________________________________");
+        System.out.printf("%-10s %-20s %-20s %-20s %-10s\n","Id","Name","Department","Designation","Salary");
+        System.out.println("______________________________________________________________________________________");
         for(Employee employee:empList){
             System.out.printf(employee.toString());
             System.out.println("\n");

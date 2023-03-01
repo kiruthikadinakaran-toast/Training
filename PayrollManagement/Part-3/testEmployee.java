@@ -1,6 +1,5 @@
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
+
 public class testEmployee{
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -75,6 +74,7 @@ public class testEmployee{
                 System.out.println("Employee detail added to the list");
                 employeeCount++;
                 empList.add(employee);
+                employee.setAllowance();
             }
             else if(nxtChoice.compareTo("2")==0) {
                 if (masterData.getEmpList().size() == 0) {
@@ -119,6 +119,7 @@ public class testEmployee{
                 if (attendanceMaster.getEmpAttendancedict().size()!=0) {
                     attendanceMaster.filterEmployeeList();
                     toCalculateSalary = true;
+                    System.out.println("The employee list is filtered");
                 }
                 else{
                     System.out.println("The attendance is not been entered yet");
@@ -169,9 +170,64 @@ public class testEmployee{
                 }
             }
             else if (nxtChoice.compareTo("6")==0) {
-                quick_sort(masterData.getEmpList(),3,0,masterData.getEmpList().size()-1);
-                for(Employee e: masterData.getEmpList()){
-                    System.out.println(e.toString());
+                String sortChoice,orderOfSorting;
+                System.out.println("1.Sort by name\t2.Sort by designation\t3.Sort by department");
+                sortChoice=sc.nextLine();
+                System.out.println("1.Sort in ascending order\t2.Sort in descending order");
+                orderOfSorting=sc.nextLine();
+                if(sortChoice.compareTo("1")==0){
+                    quick_sort(masterData.getEmpList(),Integer.parseInt(sortChoice),0,masterData.getEmpList().size()-1);
+                    System.out.println("______________________________________________________________________________________");
+                    System.out.printf("%-10s %-20s %-20s %-20s %-10s\n","Id","Name","Department","Designation","Salary");
+                    System.out.println("______________________________________________________________________________________");
+                    if(orderOfSorting.compareTo("1")==0){
+                        for(Employee employee:masterData.getEmpList()){
+                            System.out.println(employee.toString());
+                        }
+                    }
+                    else{
+                        Collections.reverse(masterData.getEmpList());
+                        for(Employee employee:masterData.getEmpList()){
+                            System.out.println(employee.toString());
+                        }
+                    }
+                }
+                else if(sortChoice.compareTo("2")==0){
+                    quick_sort(masterData.getEmpList(),Integer.parseInt(sortChoice),0,masterData.getEmpList().size()-1);
+                    System.out.println("______________________________________________________________________________________");
+                    System.out.printf("%-10s %-20s %-20s %-20s %-10s\n","Id","Name","Department","Designation","Salary");
+                    System.out.println("______________________________________________________________________________________");
+                    if(orderOfSorting.compareTo("1")==0){
+                        for(Employee employee:masterData.getEmpList()){
+                            System.out.println(employee.toString());
+                        }
+                    }
+                    else{
+                        Collections.reverse(masterData.getEmpList());
+                        for(Employee employee:masterData.getEmpList()){
+                            System.out.println(employee.toString());
+                        }
+                    }
+                }
+                else if(sortChoice.compareTo("3")==0){
+                    quick_sort(masterData.getEmpList(),Integer.parseInt(sortChoice),0,masterData.getEmpList().size()-1);
+                    System.out.println("______________________________________________________________________________________");
+                    System.out.printf("%-10s %-20s %-20s %-20s %-10s\n","Id","Name","Department","Designation","Salary");
+                    System.out.println("______________________________________________________________________________________");
+                    if(orderOfSorting.compareTo("1")==0){
+                        for(Employee employee:masterData.getEmpList()){
+                            System.out.println(employee.toString());
+                        }
+                    }
+                    else{
+                        Collections.reverse(masterData.getEmpList());
+                        for(Employee employee:masterData.getEmpList()){
+                            System.out.println(employee.toString());
+                        }
+                    }
+                }
+                else{
+                    System.out.println("Invalid choice");
                 }
             }
             else if (nxtChoice.compareTo("7")==0) {
@@ -192,23 +248,23 @@ public class testEmployee{
         }
     }
     public static int partition(ArrayList<Employee> list, int ch, int low, int high) {
-        String pi="";
+        String pivot="";
         String element="";
         int i = (low-1); // smaller element index
         for (int j=low; j<high; j++) {
             if(ch==1){
-                pi = list.get(high).getEmpName();
+                pivot = list.get(high).getEmpName();
                 element = list.get(j).getEmpName();
             }
             else if(ch==2){
-                pi = list.get(high).getDesignation();
+                pivot = list.get(high).getDesignation();
                 element = list.get(j).getDesignation();
             }
             else {
-                pi = list.get(high).getDepartment();
+                pivot = list.get(high).getDepartment();
                 element = list.get(j).getDepartment();
             }
-            if (element.compareTo(pi)<=0) {
+            if (element.compareTo(pivot)<=0) {
                 i++;
                 Employee temp = list.get(i);
                 list.set(i, list.get(j));

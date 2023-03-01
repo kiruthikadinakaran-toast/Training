@@ -1,7 +1,7 @@
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.Scanner;
+import java.util.Iterator;
 
 public class AttendanceMaster {
     private HashMap<Employee,Integer> empAttendancedict=new HashMap<Employee,Integer>();;
@@ -24,12 +24,21 @@ public class AttendanceMaster {
         }
     }
     public void filterEmployeeList() {
-        ArrayList<Employee> key = new ArrayList<>(empAttendancedict.keySet());
-        for (Employee employee : key) {
-            int days = this.empAttendancedict.get(employee);
-            if (days <= 10) {
-                this.empAttendancedict.remove(employee);
+//        ArrayList<Employee> key = new ArrayList<>(empAttendancedict.keySet());
+//        for (Employee employee : key) {
+//            int days = this.empAttendancedict.get(employee);
+//            if (days <= 10) {
+//                this.empAttendancedict.remove(employee);
+//            }
+//        }
+        Iterator<Employee> it = empAttendancedict.keySet().iterator();
+        while (it.hasNext()) {
+            Employee employee = it.next();
+            int attendance = empAttendancedict.get(employee);
+            if (attendance <= 10) {
+                it.remove();
             }
         }
+
     }
 }
