@@ -1,5 +1,4 @@
 import java.util.*;
-
 public class testEmployee{
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -14,26 +13,28 @@ public class testEmployee{
         while (true) {
             System.out.println("--------------Enter the choice--------------");
             System.out.println("1.Add employee detail  \n2.Display employee details   \n3.Add attendance to the employee  \n4.Filtered employee list  \n5.Update attendance to the employee\n6.Sort\n7.Calculate salary for eligible employee\n8.Exit");
+            System.out.println("Enter the choice:");
             nxtChoice=sc.nextLine();
             if(nxtChoice.compareTo("1")==0){
                 System.out.println("Enter the details of employee  " + employeeCount);
                 Employee employee=new Employee();
-                System.out.println("Enter the employee name");
+                System.out.println("Enter the employee name:");
                 String name = "";
                 name = sc.nextLine();
                 employee.setEmpName(name);
                 String departmentChoice ;
                 String[] departmentList={"R&D","IT","HR","Testing","Support"};
                 while (true) {
-                    System.out.println("Enter the employee department \n1.R&D  \n2.IT \n3.HR \n4.Testing \n5.Support");
+                    System.out.println("List of department \n1.R&D  \n2.IT \n3.HR \n4.Testing \n5.Support");
                     try {
+                        System.out.println("Enter the choice of department:");
                         departmentChoice = sc.nextLine();
                         int convertedIntchoice=Integer.parseInt(departmentChoice);
                         if (convertedIntchoice > 0 && convertedIntchoice <= 5) {
                             employee.setDepartment(departmentList[convertedIntchoice - 1]);
                             break;
                         } else {
-                            System.out.println("Invalid choice1");
+                            System.out.println("Invalid choice");
                         }
                     } catch (NumberFormatException e) {
                         System.out.println("Invalid choice");
@@ -42,8 +43,9 @@ public class testEmployee{
                 String designationChoice;
                 String[] designationList={"Software Intern","Software Developer","Manager","Director","Vice President","CEO"};
                 while (true) {
-                    System.out.println("Enter the employee designation \n1.Software Intern \n2.Software Developer \n3.Manager \n4.Director \n5.Vice President \n6.CEO");
+                    System.out.println("List of designation \n1.Software Intern \n2.Software Developer \n3.Manager \n4.Director \n5.Vice President \n6.CEO");
                     try {
+                        System.out.println("Enter the choice of designation:");
                         designationChoice= sc.nextLine();
                         int convertedDesigChoice=Integer.parseInt(designationChoice);
                         if(convertedDesigChoice>0 && convertedDesigChoice<=6){
@@ -60,10 +62,16 @@ public class testEmployee{
                 }
                 Double salary=0.0;
                 try {
-                    System.out.println("Enter the employee salary");
+                    System.out.println("Enter the employee salary:");
                     salary = sc.nextDouble();
                     sc.nextLine();
-                    employee.setSalary(salary);
+                    if(salary<5000) {
+                        System.out.println("Salary should be atleast 5000");
+                        employee.setSalary(salary);
+                    }
+                    else{
+                        employee.setSalary(salary);
+                    }
                 }
                 catch (InputMismatchException e){
                     System.out.println("Salary should be a number");
@@ -80,7 +88,7 @@ public class testEmployee{
                 if (masterData.getEmpList().size() == 0) {
                     System.out.println("The employee list is empty");
                 } else {
-                    masterData.employeeDetailDisplay();
+                    masterData.employeeDetailDisplay(masterData.getEmpList());
                 }
             }
             else if(nxtChoice.compareTo("3")==0){
@@ -120,6 +128,7 @@ public class testEmployee{
                     attendanceMaster.filterEmployeeList();
                     toCalculateSalary = true;
                     System.out.println("The employee list is filtered");
+                    masterData.employeeDetailDisplay(new ArrayList<Employee>(attendanceMaster.getEmpAttendancedict().keySet()));
                 }
                 else{
                     System.out.println("The attendance is not been entered yet");
@@ -131,13 +140,14 @@ public class testEmployee{
                 if (attendanceMaster.getEmpAttendancedict().size()>0) {
                     while (true) {
                         try {
-                            System.out.println("Enter the employee id");
+                            System.out.println("Enter the employee id:");
                             empId = sc.nextInt();
                             sc.nextLine();
                             if (empId >= 1001 && empId <= lastId) {
                                 while (true) {
                                     try {
-                                        System.out.println("Enter the number of working days");
+                                        System.out.println("Already entered attendance:"+attendanceMaster.getEmpAttendancedict().get(masterData.getEmpList().get(empId-1001)));
+                                        System.out.println("Enter the number of working days:");
                                         updatedWorkingDays = sc.nextInt();
                                         sc.nextLine();
                                         if (updatedWorkingDays >= 0) {
@@ -171,59 +181,56 @@ public class testEmployee{
             }
             else if (nxtChoice.compareTo("6")==0) {
                 String sortChoice,orderOfSorting;
-                System.out.println("1.Sort by name\t2.Sort by designation\t3.Sort by department");
+                System.out.println("1.Sort by name\n2.Sort by designation\n3.Sort by department");
+                System.out.println("Enter the choice");
                 sortChoice=sc.nextLine();
-                System.out.println("1.Sort in ascending order\t2.Sort in descending order");
-                orderOfSorting=sc.nextLine();
                 if(sortChoice.compareTo("1")==0){
-                    quick_sort(masterData.getEmpList(),Integer.parseInt(sortChoice),0,masterData.getEmpList().size()-1);
-                    System.out.println("______________________________________________________________________________________");
-                    System.out.printf("%-10s %-20s %-20s %-20s %-10s\n","Id","Name","Department","Designation","Salary");
-                    System.out.println("______________________________________________________________________________________");
+                    System.out.println("1.Sort in ascending order\n2.Sort in descending order");
+                    System.out.println("Enter the choice");
+                    orderOfSorting=sc.nextLine();
                     if(orderOfSorting.compareTo("1")==0){
-                        for(Employee employee:masterData.getEmpList()){
-                            System.out.println(employee.toString());
-                        }
+                        masterData.getEmpList().sort((Employee h1, Employee h2) -> h1.getEmpName().compareTo(h2.getEmpName()));
+                        masterData.employeeDetailDisplay(masterData.getEmpList());
+                    }
+                    else if(orderOfSorting.compareTo("2")==0){
+                        masterData.getEmpList().sort((Employee h1, Employee h2) -> h2.getEmpName().compareTo(h1.getEmpName()));
+                        masterData.employeeDetailDisplay(masterData.getEmpList());
                     }
                     else{
-                        Collections.reverse(masterData.getEmpList());
-                        for(Employee employee:masterData.getEmpList()){
-                            System.out.println(employee.toString());
-                        }
+                        System.out.println("Invalid choice");
                     }
                 }
                 else if(sortChoice.compareTo("2")==0){
-                    quick_sort(masterData.getEmpList(),Integer.parseInt(sortChoice),0,masterData.getEmpList().size()-1);
-                    System.out.println("______________________________________________________________________________________");
-                    System.out.printf("%-10s %-20s %-20s %-20s %-10s\n","Id","Name","Department","Designation","Salary");
-                    System.out.println("______________________________________________________________________________________");
+                    System.out.println("1.Sort in ascending order\n2.Sort in descending order");
+                    System.out.println("Enter the choice");
+                    orderOfSorting=sc.nextLine();
                     if(orderOfSorting.compareTo("1")==0){
-                        for(Employee employee:masterData.getEmpList()){
-                            System.out.println(employee.toString());
-                        }
+                        masterData.getEmpList().sort((Employee h1, Employee h2) -> h1.getDesignation().compareTo(h2.getDesignation()));
+                        masterData.employeeDetailDisplay(masterData.getEmpList());
+                    }
+                    else if(orderOfSorting.compareTo("2")==0){
+                        masterData.getEmpList().sort((Employee h1, Employee h2) -> h2.getEmpName().compareTo(h1.getEmpName()));
+                        masterData.employeeDetailDisplay(masterData.getEmpList());
                     }
                     else{
-                        Collections.reverse(masterData.getEmpList());
-                        for(Employee employee:masterData.getEmpList()){
-                            System.out.println(employee.toString());
-                        }
+                        System.out.println("Invalid choice");
                     }
+
                 }
                 else if(sortChoice.compareTo("3")==0){
-                    quick_sort(masterData.getEmpList(),Integer.parseInt(sortChoice),0,masterData.getEmpList().size()-1);
-                    System.out.println("______________________________________________________________________________________");
-                    System.out.printf("%-10s %-20s %-20s %-20s %-10s\n","Id","Name","Department","Designation","Salary");
-                    System.out.println("______________________________________________________________________________________");
+                    System.out.println("1.Sort in ascending order\n2.Sort in descending order");
+                    System.out.println("Enter the choice");
+                    orderOfSorting=sc.nextLine();
                     if(orderOfSorting.compareTo("1")==0){
-                        for(Employee employee:masterData.getEmpList()){
-                            System.out.println(employee.toString());
-                        }
+                        masterData.getEmpList().sort((Employee h1, Employee h2) -> h1.getDepartment().compareTo(h2.getDepartment()));
+                        masterData.employeeDetailDisplay(masterData.getEmpList());
+                    }
+                    else if(orderOfSorting.compareTo("2")==0){
+                        masterData.getEmpList().sort((Employee h1, Employee h2) -> h2.getEmpName().compareTo(h1.getEmpName()));
+                        masterData.employeeDetailDisplay(masterData.getEmpList());
                     }
                     else{
-                        Collections.reverse(masterData.getEmpList());
-                        for(Employee employee:masterData.getEmpList()){
-                            System.out.println(employee.toString());
-                        }
+                        System.out.println("Invalid choice");
                     }
                 }
                 else{
@@ -245,43 +252,6 @@ public class testEmployee{
             else{
                 System.out.println("Invalid choice");
             }
-        }
-    }
-    public static int partition(ArrayList<Employee> list, int ch, int low, int high) {
-        String pivot="";
-        String element="";
-        int i = (low-1); // smaller element index
-        for (int j=low; j<high; j++) {
-            if(ch==1){
-                pivot = list.get(high).getEmpName();
-                element = list.get(j).getEmpName();
-            }
-            else if(ch==2){
-                pivot = list.get(high).getDesignation();
-                element = list.get(j).getDesignation();
-            }
-            else {
-                pivot = list.get(high).getDepartment();
-                element = list.get(j).getDepartment();
-            }
-            if (element.compareTo(pivot)<=0) {
-                i++;
-                Employee temp = list.get(i);
-                list.set(i, list.get(j));
-                list.set(j, temp);
-            }
-        }
-        Employee temp = list.get(i+1);
-        list.set(i+1, list.get(high));
-        list.set(high, temp);
-
-        return i+1;
-    }
-    public static void quick_sort(ArrayList<Employee> list, int choice, int low, int high) {
-        if (low < high) {
-            int pi = partition(list,choice, low, high);
-            quick_sort(list, choice,low, pi-1);
-            quick_sort(list, choice,pi+1, high);
         }
     }
 }

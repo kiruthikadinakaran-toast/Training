@@ -41,12 +41,14 @@ import java.util.Scanner;
         }
         public void setSalary(Double salary) {
             double validatedSalary=0.0;
-            if (salary == 0.0 || salary<=5000) {
-                while (validatedSalary<=5000){
+            if (salary == 0.0 || salary<5000) {
+                while (validatedSalary<5000){
                     try {
                         System.out.println("Re-enter the employee salary");
+
                         validatedSalary = sc.nextDouble();
                         sc.nextLine();
+//                        System.out.println("Salary should be atleast 5000");
                         if (validatedSalary >= 5000) {
                             break;
                         } else {

@@ -24,13 +24,6 @@ public class AttendanceMaster {
         }
     }
     public void filterEmployeeList() {
-//        ArrayList<Employee> key = new ArrayList<>(empAttendancedict.keySet());
-//        for (Employee employee : key) {
-//            int days = this.empAttendancedict.get(employee);
-//            if (days <= 10) {
-//                this.empAttendancedict.remove(employee);
-//            }
-//        }
         Iterator<Employee> it = empAttendancedict.keySet().iterator();
         while (it.hasNext()) {
             Employee employee = it.next();
