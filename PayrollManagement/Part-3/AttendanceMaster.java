@@ -9,19 +9,18 @@ public class AttendanceMaster {
 
 
     public void showEligibleList(){
-        if(empAttendancedict.size()==0){
-            System.out.println("Number of working days is not entered");
-        }
-        else {
-            System.out.println("Eligible employee list:");
+            boolean flag=false;
+        System.out.println("______________________________________________________________________________________");
+        System.out.printf("%-10s %-20s %-20s %-20s %-10s\n","Id","Name","Department","Designation","Salary");
+        System.out.println("______________________________________________________________________________________");
             for (Employee employee : empAttendancedict.keySet()) {
                 if (empAttendancedict.get(employee) >= 10) {
-                    System.out.println("-------------Employee detail of "+employee.getEmpId()+"-------------");
                     System.out.println(employee.toString());
-                    System.out.println("Number of working days:"+empAttendancedict.get(employee));
+                    flag=true;
+                    System.out.println("______________________________________________________________________________________");
                 }
             }
-        }
+
     }
     public void filterEmployeeList() {
         Iterator<Employee> it = empAttendancedict.keySet().iterator();

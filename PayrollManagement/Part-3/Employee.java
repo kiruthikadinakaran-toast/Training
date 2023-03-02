@@ -45,7 +45,6 @@ import java.util.Scanner;
                 while (validatedSalary<5000){
                     try {
                         System.out.println("Re-enter the employee salary");
-
                         validatedSalary = sc.nextDouble();
                         sc.nextLine();
 //                        System.out.println("Salary should be atleast 5000");
@@ -74,11 +73,6 @@ import java.util.Scanner;
         }
         public Employee(){
             this.empId=empIdCounter++;
-            this.empName="";
-            this.empDepartment="";
-            this.empDesignation="";
-            this.empSalary=0;
-
         }
         public Employee(String name,String department,String designation,double salary){
             this.empId=empIdCounter++;

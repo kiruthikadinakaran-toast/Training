@@ -8,12 +8,13 @@ public class MasterData {
     public ArrayList<Employee> getEmpList(){
         return empList;
     }
-    public void employeeDetailDisplay(ArrayList<Employee> employeeList){
+    public void employeeDetailDisplay(){
         System.out.println("______________________________________________________________________________________");
         System.out.printf("%-10s %-20s %-20s %-20s %-10s\n","Id","Name","Department","Designation","Salary");
         System.out.println("______________________________________________________________________________________");
-        for(Employee employee:employeeList){
+        for(Employee employee:empList){
             System.out.println(employee.toString());
+            System.out.println("______________________________________________________________________________________");
         }
     }
 
