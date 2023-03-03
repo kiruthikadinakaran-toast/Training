@@ -4,11 +4,11 @@ public class testEmployee{
         Scanner sc = new Scanner(System.in);
         MasterData masterData=new MasterData();
         AttendanceMaster attendanceMaster=new AttendanceMaster();
-        ArrayList<Employee> empList=new ArrayList<>();
+        ArrayList<Employee> empList=new ArrayList<>();//to iterate through the employee detail while adding attendance
         SalCalculator salCalculator=new SalCalculator();
-        boolean toCalculateSalary=false;
-        boolean toFilter=true;
-        int lastId=1002;
+        boolean toCalculateSalary=false;//flag variable to denote that the hashmap is been filtered before calculating
+        boolean toFilter=true;//flag to denote that attendance of the employee in the list is been entered
+        int lastId=1002;//id to keep track of the last employee id which is used for updating the attendance
         String nxtChoice="";
         while (true) {
             System.out.println("-----------------Menu-----------------");
@@ -81,7 +81,7 @@ public class testEmployee{
                 masterData.addEmployeeToList(employee);
                 System.out.println("Employee detail added to the list");
                 empList.add(employee);
-                toFilter=false;
+                toFilter=false;//after adding employee we should add attendance then only we can filter the employee
                 employee.setAllowance();
             }
             else if(nxtChoice.compareTo("2")==0) {
@@ -93,7 +93,7 @@ public class testEmployee{
                 }
             }
             else if(nxtChoice.compareTo("3")==0){
-                if(empList.size()==0 && masterData.getEmpList().size()==0){
+                if(masterData.getEmpList().size()==0){
                     System.out.println("No employee detail is entered yet");
                 }
                 else if(empList.size()==0){
@@ -120,14 +120,14 @@ public class testEmployee{
                             }
 
                         }
-                        toFilter=true;
+                        toFilter=true;//after adding attendance to all emp we can filter them
                     }
                     lastId=empList.get(empList.size()-1).getEmpId();
-                    empList.clear();
+                    empList.clear();//after adding the attendance we can clear the list so that nxt time we can start adding attendance for newly entered emp
                 }
             } else if (nxtChoice.compareTo("4")==0) {
                 if (attendanceMaster.getEmpAttendancedict().size() != 0) {
-                    if(toFilter) {
+                    if(toFilter || empList.size()==0) {
                         attendanceMaster.filterEmployeeList();
                         if (attendanceMaster.getEmpAttendancedict().size() != 0) {
                             System.out.println("The eligible employee list:");
@@ -151,22 +151,27 @@ public class testEmployee{
                 int empId;
                 int updatedWorkingDays;
                 boolean toBreak=false;
-                if (attendanceMaster.getEmpAttendancedict().size()>0 || toCalculateSalary) {
+                if (masterData.getEmpList().size()==0){//attendanceMaster.getEmpAttendancedict().size()>0 || toCalculateSalary || empList.size()!=0) {//if all the employee in the dictionary is not eligible(filtered) but still we can update the attendance of the emp & we cant check the list bcoz we can update the attendance who have already entered
                     while (true) {
                         try {
                             System.out.println("Enter the employee id:");
                             empId = sc.nextInt();
                             sc.nextLine();
-                            if (empId >= 1001 && empId <= lastId) {
+                            if (empId >= 1001 && empId <= masterData.getEmpList().size()+1000) {
                                 while (true) {
                                     try {
                                         System.out.println("Enter the number of working days:");
                                         updatedWorkingDays = sc.nextInt();
                                         sc.nextLine();
                                         if (updatedWorkingDays >= 0) {
-                                            attendanceMaster.getEmpAttendancedict().put(masterData.getEmpList().get(empId-1001), updatedWorkingDays);
+                                            Employee employee=masterData.getEmpList().get(empId-1001);
+                                            attendanceMaster.getEmpAttendancedict().put(employee, updatedWorkingDays);
                                             toBreak=true;
                                             toCalculateSalary=false;
+                                            empList.remove(employee);
+                                            if(empList.size()==0){
+                                                toFilter=true;
+                                            }
                                             break;
                                         } else {
                                             System.out.println("Working days cannot be negative");
@@ -181,7 +186,7 @@ public class testEmployee{
                                 }
                             }
                             else {
-                                System.out.println("The employee id is not found");
+                                System.out.println("The employee id is not found in the attendance dictionary");
                             }
 
                         } catch (InputMismatchException ex) {
@@ -190,11 +195,8 @@ public class testEmployee{
                         }
                     }
                 }
-                else if(masterData.getEmpList().size()==0){
-                    System.out.println("No employee detail is entered yet");
-                }
                 else{
-                    System.out.println("The attendance is not been entered yet");
+                    System.out.println("No employee detail is entered yet");
                 }
             }
             else if (nxtChoice.compareTo("6")==0) {
