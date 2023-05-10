@@ -51,13 +51,13 @@ import java.util.Scanner;
                         if (validatedSalary >= 5000) {
                             break;
                         } else {
-                            System.out.println("Salary should be atleast 5000");
+                            System.out.println("Salary should be atleast 5000\n");
                             System.out.println("Re-enter the employee salary");
                             validatedSalary = sc.nextDouble();
                             sc.nextLine();
                         }
                     } catch (InputMismatchException mme) {
-                        System.out.println("Salary should be a number");
+                        System.out.println("Salary should be a number\n");
                         sc.nextLine();
 
                     }

@@ -1,5 +1,5 @@
 import java.util.*;
-public class testEmployee{
+public class TestEmployee{
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         MasterData masterData=new MasterData();
@@ -7,11 +7,9 @@ public class testEmployee{
         ArrayList<Employee> empList=new ArrayList<>();//to iterate through the employee detail while adding attendance
         SalCalculator salCalculator=new SalCalculator();
         boolean toCalculateSalary=false;//flag variable to denote that the hashmap is been filtered before calculating
-        boolean toFilter=true;//flag to denote that attendance of the employee in the list is been entered
-        int lastId=1002;//id to keep track of the last employee id which is used for updating the attendance
         String nxtChoice="";
         while (true) {
-            System.out.println("-----------------Menu-----------------");
+            System.out.println("\n-----------------Menu-----------------");
             System.out.println("1.Add employee detail  \n2.Display employee details   \n3.Add attendance to the employee  \n4.Filter and show eligible employee list\n5.Update attendance to the employee\n6.Sort\n7.Calculate salary for eligible employee\n8.Exit");
             System.out.println("Enter the choice:");
             nxtChoice=sc.nextLine();
@@ -23,9 +21,10 @@ public class testEmployee{
                 name = sc.nextLine();
                 employee.setEmpName(name);
                 String departmentChoice ;
+                System.out.println();
                 String[] departmentList={"R&D","IT","HR","Testing","Support"};
                 while (true) {
-                    System.out.println("List of department \n1.R&D  \n2.IT \n3.HR \n4.Testing \n5.Support");
+                    System.out.println("--------List of department-------- \n1.R&D  \n2.IT \n3.HR \n4.Testing \n5.Support");
                     try {
                         System.out.println("Enter the choice of department:");
                         departmentChoice = sc.nextLine();
@@ -34,12 +33,13 @@ public class testEmployee{
                             employee.setDepartment(departmentList[convertedIntchoice - 1]);
                             break;
                         } else {
-                            System.out.println("Invalid choice");
+                            System.out.println("Invalid choice(Enter the choice between 1-5)\n");
                         }
                     } catch (NumberFormatException e) {
-                        System.out.println("Invalid choice");
+                        System.out.println("Choice should be a value\n");
                     }
                 }
+                System.out.println();
                 String designationChoice;
                 String[] designationList={"Software Intern","Software Developer","Manager","Director","Vice President","CEO"};
                 while (true) {
@@ -53,11 +53,11 @@ public class testEmployee{
                             break;
                         }
                         else{
-                            System.out.println("Invalid choice");
+                            System.out.println("Invalid choice(Enter the choice between 1-6)\n");
                         }
                     }
                     catch (NumberFormatException e){
-                        System.out.println("Invalid choice");
+                        System.out.println("Choice should be a value\n");
                     }
                 }
                 Double salary=0.0;
@@ -66,7 +66,7 @@ public class testEmployee{
                     salary = sc.nextDouble();
                     sc.nextLine();
                     if(salary<5000) {
-                        System.out.println("Salary should be atleast 5000");
+                        System.out.println("Salary should be atleast 5000\n");
                         employee.setSalary(salary);
                     }
                     else{
@@ -74,14 +74,14 @@ public class testEmployee{
                     }
                 }
                 catch (InputMismatchException e){
-                    System.out.println("Salary should be a number");
+                    System.out.println("Salary should be a number\n");
                     sc.nextLine();
                     employee.setSalary(salary);
                 }
                 masterData.addEmployeeToList(employee);
-                System.out.println("Employee detail added to the list");
+                System.out.println("\n--------Employee detail added to the list--------");
                 empList.add(employee);
-                toFilter=false;//after adding employee we should add attendance then only we can filter the employee
+                toCalculateSalary=false;
                 employee.setAllowance();
             }
             else if(nxtChoice.compareTo("2")==0) {
@@ -94,10 +94,10 @@ public class testEmployee{
             }
             else if(nxtChoice.compareTo("3")==0){
                 if(masterData.getEmpList().size()==0){
-                    System.out.println("No employee detail is entered yet");
+                    System.out.println("No employee detail is entered yet\n");
                 }
                 else if(empList.size()==0){
-                    System.out.println("You already added the attendance of all employee");
+                    System.out.println("You already added the attendance of all employee\n");
                 }
                 else{
                     int noOfWorkingDays;
@@ -107,51 +107,49 @@ public class testEmployee{
                             try {
                                 noOfWorkingDays = sc.nextInt();
                                 sc.nextLine();
-                                if (noOfWorkingDays > 0) {
+                                if (noOfWorkingDays >= 0 && noOfWorkingDays<=30) {
                                     attendanceMaster.getEmpAttendancedict().put(emp, noOfWorkingDays);
                                     break;
                                 }
                                 else{
-                                    System.out.println("Number of working days should not be negative");
+                                    System.out.println("Number of working days should be within 0-30\n");
                                 }
                             } catch (InputMismatchException exception) {
-                                System.out.println("Number of working days should be number");
+                                System.out.println("Number of working days should be number\n");
                                 sc.nextLine();
                             }
 
                         }
-                        toFilter=true;//after adding attendance to all emp we can filter them
                     }
-                    lastId=empList.get(empList.size()-1).getEmpId();
                     empList.clear();//after adding the attendance we can clear the list so that nxt time we can start adding attendance for newly entered emp
                 }
             } else if (nxtChoice.compareTo("4")==0) {
                 if (attendanceMaster.getEmpAttendancedict().size() != 0) {
-                    if(toFilter || empList.size()==0) {
+                    if(empList.size()==0) {
                         attendanceMaster.filterEmployeeList();
                         if (attendanceMaster.getEmpAttendancedict().size() != 0) {
                             System.out.println("The eligible employee list:");
                             attendanceMaster.showEligibleList();
                             toCalculateSalary = true;
                         } else {
-                            System.out.println("There is no eligible employee in the list");
+                            System.out.println("There is no eligible employee in the list\n");
                             toCalculateSalary = true;
                         }
                     }
                     else{
-                        System.out.println("The attendance is not been entered to all the employee");
+                        System.out.println("The attendance is not been entered to all the employee\n");
                     }
                 } else if (masterData.getEmpList().size() == 0) {
-                    System.out.println("No employee detail is entered yet");
+                    System.out.println("No employee detail is entered yet\n");
                 } else {
-                    System.out.println("The attendance is not been entered yet");
+                    System.out.println("The attendance is not been entered yet\n");
                 }
             }
             else if (nxtChoice.compareTo("5")==0) {
                 int empId;
                 int updatedWorkingDays;
                 boolean toBreak=false;
-                if (masterData.getEmpList().size()==0){//attendanceMaster.getEmpAttendancedict().size()>0 || toCalculateSalary || empList.size()!=0) {//if all the employee in the dictionary is not eligible(filtered) but still we can update the attendance of the emp & we cant check the list bcoz we can update the attendance who have already entered
+                if (masterData.getEmpList().size()!=0){
                     while (true) {
                         try {
                             System.out.println("Enter the employee id:");
@@ -163,21 +161,20 @@ public class testEmployee{
                                         System.out.println("Enter the number of working days:");
                                         updatedWorkingDays = sc.nextInt();
                                         sc.nextLine();
-                                        if (updatedWorkingDays >= 0) {
+                                        if (updatedWorkingDays >= 0 && updatedWorkingDays<=30) {
                                             Employee employee=masterData.getEmpList().get(empId-1001);
                                             attendanceMaster.getEmpAttendancedict().put(employee, updatedWorkingDays);
                                             toBreak=true;
                                             toCalculateSalary=false;
                                             empList.remove(employee);
-                                            if(empList.size()==0){
-                                                toFilter=true;
-                                            }
                                             break;
+                                        }else if(updatedWorkingDays>=31){
+                                            System.out.println("Number of working days should be in the range 0-30\n");
                                         } else {
-                                            System.out.println("Working days cannot be negative");
+                                            System.out.println("Working days cannot be negative\n");
                                         }
                                     } catch (InputMismatchException ex) {
-                                        System.out.println("Working days should be value");
+                                        System.out.println("Working days should be value\n");
                                         sc.nextLine();
                                     }
                                 }
@@ -186,88 +183,83 @@ public class testEmployee{
                                 }
                             }
                             else {
-                                System.out.println("The employee id is not found in the attendance dictionary");
+                                System.out.println("The employee id is not found\n");
                             }
 
                         } catch (InputMismatchException ex) {
-                            System.out.println("Employee id should be value");
+                            System.out.println("Employee id should be value\n");
                             sc.nextLine();
                         }
                     }
                 }
                 else{
-                    System.out.println("No employee detail is entered yet");
+                    System.out.println("No employee detail is entered yet\n");
                 }
             }
             else if (nxtChoice.compareTo("6")==0) {
                 if (masterData.getEmpList().size() > 0) {
                     String sortChoice;
                     while (true) {
-                        System.out.println("1.Sort by name ascending\n2.Sort by name descending\n3.Sort by designation ascending\n4.Sort by designation descending\n5.Sort by department ascending\n6.Sort by department descending");
+                        System.out.println("\n1.Sort by name ascending\n2.Sort by name descending\n3.Sort by designation ascending\n4.Sort by designation descending\n5.Sort by department ascending\n6.Sort by department descending\n7.Exit");
                         System.out.println("Enter the choice");
                         sortChoice = sc.nextLine();
                         if (sortChoice.compareTo("1") == 0) {
                             masterData.getEmpList().sort((Employee h1, Employee h2) -> h1.getEmpName().compareTo(h2.getEmpName()));
                             System.out.println("Sorted List:");
                             masterData.employeeDetailDisplay();
-                            break;
                         } else if (sortChoice.compareTo("2") == 0) {
                             masterData.getEmpList().sort((Employee h1, Employee h2) -> h2.getEmpName().compareTo(h1.getEmpName()));
                             System.out.println("Sorted List:");
                             masterData.employeeDetailDisplay();
-                            break;
                         } else if (sortChoice.compareTo("3") == 0) {
                             masterData.getEmpList().sort((Employee h1, Employee h2) -> h1.getDesignation().compareTo(h2.getDesignation()));
                             System.out.println("Sorted List:");
                             masterData.employeeDetailDisplay();
-                            break;
                         } else if (sortChoice.compareTo("4") == 0) {
                             masterData.getEmpList().sort((Employee h1, Employee h2) -> h2.getDesignation().compareTo(h1.getDesignation()));
                             System.out.println("Sorted List:");
                             masterData.employeeDetailDisplay();
-                            break;
                         } else if (sortChoice.compareTo("5") == 0) {
                             masterData.getEmpList().sort((Employee h1, Employee h2) -> h1.getDepartment().compareTo(h2.getDepartment()));
                             System.out.println("Sorted List:");
                             masterData.employeeDetailDisplay();
-                            break;
                         } else if (sortChoice.compareTo("6") == 0) {
                             masterData.getEmpList().sort((Employee h1, Employee h2) -> h2.getDepartment().compareTo(h1.getDepartment()));
                             System.out.println("Sorted List:");
                             masterData.employeeDetailDisplay();
+                        }else if(sortChoice.compareTo("7")==0){
                             break;
                         } else {
-                            System.out.println("Invalid choice");
+                            System.out.println("Invalid choice(Enter the choice 1-6)\n");
                         }
                     }
                 }
                 else{
-                    System.out.println("No employee detail is entered yet");
+                    System.out.println("No employee detail is entered yet\n");
                 }
             }
             else if (nxtChoice.compareTo("7")==0) {
                 if(masterData.getEmpList().size()==0){
-                    System.out.println("No employee detail is entered yet");
+                    System.out.println("No employee detail is entered yet\n");
                 }
                 else if(attendanceMaster.getEmpAttendancedict().size()==0 && toCalculateSalary){
-                    System.out.println("There is no eligible employee in the list");
+                    System.out.println("There is no eligible employee in the list\n");
                 }
-                else if(attendanceMaster.getEmpAttendancedict().size()==0){
-                    System.out.println("The attendance is not been entered yet");
+                else if(empList.size()!=0){
+                    System.out.println("The attendance is not been entered yet\n");
                 }
-                else if(toCalculateSalary) {
+                else if(toCalculateSalary ) {
                     salCalculator.calculateSalary(attendanceMaster.getEmpAttendancedict());
-                    toCalculateSalary=false;
                 }
                 else{
-                    System.out.println("First filter the eligible employees");
+                    System.out.println("First filter the eligible employees\n");
                 }
             }
             else if (nxtChoice.compareTo("8")==0) {
                 break;
             }
             else{
-                System.out.println("Invalid choice");
+                System.out.println("Invalid choice(Enter choice between 1-8)\n");
             }
         }
     }
